@@ -65,6 +65,16 @@ nav a:hover{color:var(--pen)}
 .btn.primary{background:var(--ink);color:var(--paper)}
 .btn:hover{border-color:var(--pen);color:var(--pen)} .btn.primary:hover{background:var(--pen);color:var(--sheet)}
 
+/* capturas */
+.shot{margin:0;border:1px solid var(--line);background:var(--paper)}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption,.gallery figcaption{font-size:.84rem;color:var(--muted);padding:10px 12px;border-top:1px solid var(--line);line-height:1.45}
+.gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.gallery figure{margin:0;border:1px solid var(--line);background:var(--paper);min-width:0}
+.gallery img{display:block;width:100%;height:auto;aspect-ratio:1100/700;object-fit:cover;object-position:top left}
+.gallery figcaption b{color:var(--ink);font-weight:600}
+@media (max-width:700px){.gallery{grid-template-columns:1fr}}
+
 /* vitrine */
 .showcase{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:230px 230px auto;gap:12px;margin-bottom:40px}
 .tile{position:relative;margin:0;overflow:hidden;background:#0c0f14;border:1.5px solid var(--ink);min-width:0}
@@ -305,7 +315,7 @@ svg .ah{fill:var(--ink)}
   <section class="block" id="casos">
     <div class="sec-head">
       <h2>Casos</h2>
-      <span class="label">4 principais · 3 complementares · arquiteturas no atlas</span>
+      <span class="label">5 principais · 3 complementares · arquiteturas no atlas</span>
     </div>
 
     <!-- CASO 1 -->
@@ -335,6 +345,11 @@ svg .ah{fill:var(--ink)}
             <text class="sub" x="190" y="190" font-size="11">resposta em blocos curtos</text>
           </svg>
         </div>
+
+        <figure class="shot">
+          <img src="media/n8n_fluxo.jpg" alt="Fluxo real no n8n: gatilho do WhatsApp, separação entre texto, áudio e botão, transcrição do áudio, chamada ao motor, envio de texto, botões ou áudio gerado pela ElevenLabs." loading="lazy" width="1600" height="554">
+          <figcaption>O fluxo real no n8n, com 17 nós. Texto, áudio (transcrito) e toque em botão viram uma única pergunta ao motor; a resposta sai como texto em partes, botões ou áudio. Credenciais e parâmetros foram removidos da imagem.</figcaption>
+        </figure>
 
         <div class="cols">
           <div><h4>Problema</h4><p>Relatório completo não cabe numa tela de celular, e pergunta ampla ("o que mudou na minha carteira?") travava o primeiro bot, que só sabia responder ativo por ativo.</p></div>
@@ -499,6 +514,46 @@ svg .ah{fill:var(--ink)}
       </div>
     </article>
 
+    <!-- CASO 5 -->
+    <article class="sheet" id="caso-rendafixa">
+      <div class="sheet-in">
+        <span class="label">Análise quantitativa · renda fixa e fundos</span>
+        <h3>Dá para estudar renda fixa e fundos com o mesmo rigor de uma mesa, usando só dado público?</h3>
+        <p class="sum">Dois aplicativos que viraram um só. O scanner do Tesouro Direto lê o histórico oficial do Tesouro Transparente e da ANBIMA. O analisador de fundos cruza 1.058 fundos citados em 492 relatórios com as cotas diárias da CVM. Os dois são ferramentas de estudo: mostram números, testes e riscos, não indicam compra.</p>
+
+        <div class="gallery">
+          <figure><img src="media/tesouro_backtest.jpg" alt="Aba de backtest do scanner do Tesouro com eventos disparados, retorno médio, mediana, taxa de acerto e tabela de eventos." loading="lazy" width="1100" height="897"><figcaption><b>Backtest do sinal.</b> Cada vez que a taxa fica fora do normal, o app mede o que aconteceu com o preço 30, 90 e 180 dias depois.</figcaption></figure>
+          <figure><img style="object-position:center bottom" src="media/tesouro_sensibilidade.jpg" alt="Gráfico de sensibilidade do preço de um título à variação da taxa, de menos 200 a mais 200 pontos-base." loading="lazy" width="1100" height="897"><figcaption><b>Risco de taxa.</b> Duration, convexidade, DV01 e quanto o preço do título muda com cada choque de juros.</figcaption></figure>
+          <figure><img style="object-position:center bottom" src="media/tesouro_curva.jpg" alt="Curva de juros do Tesouro Direto, prefixada e IPCA+, na data de referência." loading="lazy" width="1100" height="897"><figcaption><b>Curva de juros.</b> Prefixado e IPCA+ na mesma data, e a inflação implícita entre os dois.</figcaption></figure>
+          <figure><img src="media/fundos_carteiras.jpg" alt="Gráfico de desempenho acumulado de carteiras hipotéticas por tipo de fundo comparadas com CDI e Ibovespa, com tabela de métricas." loading="lazy" width="1100" height="897"><figcaption><b>Carteiras por tipo de fundo.</b> Renda fixa, previdência, ações, alavancados e ETFs contra CDI e Ibovespa, com drawdown e risco × retorno.</figcaption></figure>
+        </div>
+
+        <div class="cols">
+          <div><h4>Dados</h4><ul>
+            <li>Histórico oficial de preços e taxas do Tesouro e curva da ANBIMA.</li>
+            <li>Cotas diárias da CVM com cache que só fecha o mês 7 dias depois de ele acabar.</li>
+            <li>Séries de ETF com defeito (preço congelado, desdobramento sem ajuste) descartadas automaticamente.</li>
+          </ul></div>
+          <div><h4>Métodos</h4><ul>
+            <li>Quartis e z-score da taxa em janelas de 180, 365 e 730 dias.</li>
+            <li>Índice de cauda gorda nos retornos do preço, para marcar regimes em que média e desvio enganam.</li>
+            <li>Cenários em reais: carrego, aportes mensais e venda antecipada.</li>
+          </ul></div>
+          <div><h4>IA</h4><ul>
+            <li>Comitê de dois agentes (analista técnico e coordenador) que só recebe os números calculados pelo app.</li>
+            <li>O contexto é montado por código num único bloco: o modelo interpreta, não busca nem inventa dado.</li>
+            <li>~R$ 0,10–0,20 por consulta.</li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="stamp">
+        <div><i>Status</i><span class="pill ok">em uso, estudo próprio</span></div>
+        <div><i>Stack</i>Python · Streamlit · pandas</div>
+        <div class="grow"><i>Fontes</i>Tesouro Transparente · ANBIMA · CVM · BCB</div>
+        <div><i>IA</i>Claude, 2 agentes</div>
+      </div>
+    </article>
+
     <!-- MENORES -->
     <div class="minor">
       <article class="sheet" id="caso-central">
@@ -614,7 +669,6 @@ svg .ah{fill:var(--ink)}
           <tr><td>Radar industrial</td><td>Mapeia 761 empresas de 19 segmentos em Marabá e Parauapebas e separa cliente, concorrente e canal</td><td>Places API · 55 requisições · classificação por papel</td><td><span class="pill ok">usado na prospecção</span></td></tr>
           <tr><td>Calculadoras de engenharia</td><td>NR-13, custo de parada e seleção de equipamentos por TOPSIS, publicadas no site de uma consultoria parceira</td><td>Gerador de site estático em Python</td><td><span class="pill ok">revisadas pelos engenheiros</span></td></tr>
           <tr><td>Animações sobre opções</td><td>Episódios curtos que explicam opções de compra e venda com analogias, narrados e legendados</td><td>Remotion · Azure TTS com marcas de sincronia por palavra</td><td><span class="pill ok">2 episódios</span></td></tr>
-          <tr><td>Analisador de fundos</td><td>1.058 fundos de 492 relatórios, cruzados com os dados da CVM e da ANBIMA, mais scanner do Tesouro</td><td>Streamlit · OCR · cache da CVM com meses parciais</td><td><span class="pill ok">em uso</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -655,6 +709,8 @@ svg .ah{fill:var(--ink)}
             <li><b>Agente de investimentos no WhatsApp</b>: Python, FastAPI, SQLite, n8n, Claude. Perguntas amplas de 1 em 5 para 6 em 6 respondidas; modelo escolhido por roteiro fixo, 26× mais barato.</li>
             <li><b>Backtest point-in-time</b>: CVM, B3, BCB. 1.241 observações sem viés de sobrevivência; IC de 12 meses de 0,175 para 0,254; bug de dado em 28 de 100 empresas encontrado e corrigido.</li>
             <li><b>Extração verificada com LLM</b>: Telethon e Batch API. 1.177 afirmações com citação conferida por código; 878 imagens com 0 erros por US$ 12,28.</li>
+            <li><b>Scanner de renda fixa e analisador de fundos</b>: Streamlit, dados do Tesouro, ANBIMA e CVM. Backtest de sinal, duration, convexidade e DV01, curva e inflação implícita; 1.058 fundos cruzados com cotas da CVM; comitê de 2 agentes sobre os números do app.</li>
+            <li><b>Orquestração no n8n</b>: fluxo de 17 nós com WhatsApp oficial, transcrição de áudio, botões interativos e resposta em áudio (ElevenLabs).</li>
             <li><b>Plataforma de estudo adaptativa</b>: FastAPI, Fly.io. 246 geradores de questão com gabarito calculado, 322 testes.</li>
           </ul>
         </div>
