@@ -55,8 +55,8 @@ nav a{color:var(--muted);text-decoration:none;font:500 .82rem var(--mono)}
 nav a:hover{color:var(--pen)}
 
 /* hero */
-.hero{padding-block:64px 40px;display:grid;gap:28px}
-.hero h1{font-size:clamp(2.2rem,5.4vw,4.1rem);font-weight:700;letter-spacing:-.02em;max-width:18ch}
+.hero{padding-block:48px 32px;display:grid;gap:28px}
+.hero h1{font-size:clamp(2.1rem,4.6vw,3.3rem);font-weight:700;letter-spacing:-.02em;max-width:18ch}
 .hero h1 em{font-style:normal;color:var(--pen)}
 .hero .lede{font-size:1.15rem;color:var(--muted);max-width:60ch}
 .hero .lede strong{color:var(--ink);font-weight:600}
@@ -64,6 +64,25 @@ nav a:hover{color:var(--pen)}
 .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border:1.5px solid var(--ink);color:var(--ink);text-decoration:none;font:500 .88rem var(--mono);background:transparent}
 .btn.primary{background:var(--ink);color:var(--paper)}
 .btn:hover{border-color:var(--pen);color:var(--pen)} .btn.primary:hover{background:var(--pen);color:var(--sheet)}
+
+/* vitrine */
+.showcase{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:230px 230px auto;gap:12px;margin-bottom:40px}
+.tile{position:relative;margin:0;overflow:hidden;background:#0c0f14;border:1.5px solid var(--ink);min-width:0}
+.tile video{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
+.t-estudo{grid-column:1 / 3;grid-row:1 / 3}
+.t-story{grid-column:3;grid-row:1 / 3}
+.t-wide{aspect-ratio:16/10}
+.tile figcaption{position:absolute;inset:auto 0 0 0;padding:28px 14px 12px;display:grid;gap:2px;color:#F2F4F7;background:linear-gradient(to top,rgba(8,10,14,.92),rgba(8,10,14,.75) 60%,rgba(8,10,14,0))}
+.tile figcaption b{font:600 1rem var(--display)}
+.tile figcaption span{font-size:.82rem;color:#C9D0DA;line-height:1.35}
+.tile figcaption a{font:500 .74rem var(--mono);color:#AFC0FF;text-decoration:none;margin-top:2px}
+.tile figcaption a:hover{text-decoration:underline}
+@media (max-width:820px){
+  .showcase{grid-template-columns:1fr;grid-template-rows:none}
+  .t-estudo,.t-story{grid-column:auto;grid-row:auto}
+  .t-estudo{aspect-ratio:1180/820}
+  .t-story{aspect-ratio:9/12}
+}
 
 /* medições */
 .meas{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));border-top:1.5px solid var(--ink);border-bottom:1px solid var(--line)}
@@ -199,7 +218,7 @@ footer .row{display:flex;gap:24px;flex-wrap:wrap;align-items:baseline}
 @media print{
   :root{--paper:#fff;--sheet:#fff;--ink:#111;--muted:#444;--line:#bbb;--pen:#1a2f99}
   @page{margin:14mm 14mm}
-  nav,.hero,.meas,#casos,#erros,#outros,#demo,#metodo,.print-hide,footer,body::before{display:none!important}
+  nav,.hero,.showcase,.meas,#casos,#erros,#outros,#demo,#metodo,.print-hide,footer,body::before{display:none!important}
   body{font-size:9.5pt;line-height:1.45;padding:0}
   .print-head{display:grid!important;gap:2px;padding-bottom:10px;border-bottom:1.5px solid var(--ink);margin-bottom:6px}
   .print-head h1{font-size:20pt}
@@ -244,14 +263,37 @@ svg .ah{fill:var(--ink)}
 <main class="wrap">
   <header class="hero">
     <span class="label">Engenharia de IA · Engenharia de dados · Software</span>
-    <h1>Construo agentes de IA que trabalham sobre <em>dado de verdade</em>.</h1>
-    <p class="lede">Ingestão, banco, ferramentas e o agente por cima. O código calcula e decide, o modelo lê e explica, e cada número da resposta aponta para a fonte. <strong>Engenheiro mecânico com certificação CNPI em finanças</strong>: entendo o processo que gera o dado antes de modelar.</p>
+    <h1>Construo sistemas de IA que <em>põem coisas no ar</em>.</h1>
+    <p class="lede">Questões com gabarito calculado, respostas com fonte, aulas animadas e stories, tudo gerado por pipelines de dados e agentes que eu mesmo projetei e opero. <strong>Engenheiro mecânico, especialista em IA e engenharia de dados.</strong></p>
     <div class="links">
       <a class="btn primary" href="atlas.html">Abrir o atlas de arquitetura</a>
       <a class="btn" href="https://brunoizi.github.io/curriculo.pdf" target="_blank" rel="noopener">Currículo (PDF)</a>
       <a class="btn" href="https://github.com/brunoizi" target="_blank" rel="noopener">github.com/brunoizi</a>
     </div>
   </header>
+
+  <section class="showcase" aria-label="Sistemas rodando">
+    <figure class="tile t-estudo">
+      <video muted loop playsinline autoplay preload="metadata" poster="media/estudo.jpg"><source src="media/estudo.mp4" type="video/mp4"></video>
+      <figcaption><b>Plataforma de estudo</b><span>Questão gerada com gabarito calculado; o erro revela o conceito</span><a href="#caso-estudo">ver o caso →</a></figcaption>
+    </figure>
+    <figure class="tile t-story">
+      <video muted loop playsinline autoplay preload="metadata" poster="media/story.jpg"><source src="media/story.mp4" type="video/mp4"></video>
+      <figcaption><b>Central editorial</b><span>Story escrito pela IA a partir de fontes e renderizado por código</span><a href="#caso-central">ver o caso →</a></figcaption>
+    </figure>
+    <figure class="tile t-wide">
+      <video muted loop playsinline autoplay preload="metadata" poster="media/atlas.jpg"><source src="media/atlas.mp4" type="video/mp4"></video>
+      <figcaption><b>Atlas de arquitetura</b><span>Seis sistemas, componente por componente</span><a href="atlas.html">abrir →</a></figcaption>
+    </figure>
+    <figure class="tile t-wide">
+      <video muted loop playsinline autoplay preload="metadata" poster="media/manim.jpg"><source src="media/manim.mp4" type="video/mp4"></video>
+      <figcaption><b>Aula de cálculo em código</b><span>Manim em 1080p60, sincronizado com a narração</span><a href="#caso-manim">ver o caso →</a></figcaption>
+    </figure>
+    <figure class="tile t-wide">
+      <video muted loop playsinline autoplay preload="metadata" poster="media/episodio.jpg"><source src="media/episodio.mp4" type="video/mp4"></video>
+      <figcaption><b>Animações sobre opções</b><span>15 episódios narrados e legendados por pipeline</span><a href="#outros">ver →</a></figcaption>
+    </figure>
+  </section>
 
   <div class="meas" aria-label="Medições dos projetos">
     <div><b>322</b><span>testes automatizados só na plataforma de estudo, rodados antes de cada mudança</span></div>
@@ -267,7 +309,7 @@ svg .ah{fill:var(--ink)}
     </div>
 
     <!-- CASO 1 -->
-    <article class="sheet">
+    <article class="sheet" id="caso-agente">
       <div class="sheet-in">
         <span class="label">Agente conversacional · WhatsApp oficial</span>
         <h3>Dá para perguntar sobre a bolsa no WhatsApp sem o bot inventar número?</h3>
@@ -320,7 +362,7 @@ svg .ah{fill:var(--ink)}
     </article>
 
     <!-- CASO 2 -->
-    <article class="sheet">
+    <article class="sheet" id="caso-backtest">
       <div class="sheet-in">
         <span class="label">Engenharia de dados · Pesquisa quantitativa</span>
         <h3>Uma nota de qualidade das empresas prevê retorno na B3?</h3>
@@ -377,7 +419,7 @@ svg .ah{fill:var(--ink)}
     </article>
 
     <!-- CASO 3 -->
-    <article class="sheet">
+    <article class="sheet" id="caso-extracao">
       <div class="sheet-in">
         <span class="label">Pipeline de extração com LLM</span>
         <h3>Dá para transformar 12 mil mensagens em fatos citáveis sem o modelo inventar citação?</h3>
@@ -416,7 +458,7 @@ svg .ah{fill:var(--ink)}
     </article>
 
     <!-- CASO 4 -->
-    <article class="sheet">
+    <article class="sheet" id="caso-estudo">
       <div class="sheet-in">
         <span class="label">Engenharia de software · produto em uso diário</span>
         <h3>Como saber se alguém domina resistência dos materiais, e não só acertou?</h3>
@@ -459,7 +501,7 @@ svg .ah{fill:var(--ink)}
 
     <!-- MENORES -->
     <div class="minor">
-      <article class="sheet">
+      <article class="sheet" id="caso-central">
         <div class="sheet-in">
           <span class="label">Automação de conteúdo</span>
           <h3>Central editorial que gera stories e reels com contrato</h3>
@@ -473,7 +515,7 @@ svg .ah{fill:var(--ink)}
         </div>
       </article>
 
-      <article class="sheet">
+      <article class="sheet" id="caso-manim">
         <div class="sheet-in">
           <span class="label">Vídeo didático automatizado</span>
           <h3>Aula de cálculo em 1080p60 renderizada por código</h3>
@@ -715,6 +757,15 @@ svg .ah{fill:var(--ink)}
     try{navigator.clipboard.writeText(t).then(function(){},sel)}catch(e){sel()}
     function sel(){var r=document.createRange();r.selectNodeContents(document.getElementById("mail"));var s=getSelection();s.removeAllRanges();s.addRange(r)}
   });
+})();
+(function(){
+  var vids=[].slice.call(document.querySelectorAll(".tile video"));
+  var reduce=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  vids.forEach(function(v){ if(reduce){v.removeAttribute("autoplay");v.pause();v.controls=true} });
+  if(!reduce&&"IntersectionObserver" in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){ if(e.isIntersecting){var pr=e.target.play();if(pr&&pr.catch)pr.catch(function(){})} else e.target.pause() })},{threshold:.2});
+    vids.forEach(function(v){io.observe(v)});
+  }
 })();
 </script>
 
