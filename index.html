@@ -169,6 +169,12 @@ footer .row{display:flex;gap:24px;flex-wrap:wrap;align-items:baseline}
 .others td:first-child{font-weight:600;white-space:nowrap}
 .others td:nth-child(3){font:400 .8rem var(--mono);color:var(--muted)}
 
+.print-head{display:none}
+.intro{color:var(--muted);margin-bottom:18px}
+.wrong td:first-child{white-space:normal;font-weight:600;width:28%}
+.wrong td:nth-child(2){font:inherit;color:var(--ink);width:36%}
+.wrong td:nth-child(3){font:inherit;color:var(--muted)}
+
 /* currículo */
 .cv-grid{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:40px;border-top:1.5px solid var(--ink);padding-top:24px}
 @media (max-width:820px){.cv-grid{grid-template-columns:1fr;gap:28px}}
@@ -192,13 +198,18 @@ footer .row{display:flex;gap:24px;flex-wrap:wrap;align-items:baseline}
 
 @media print{
   :root{--paper:#fff;--sheet:#fff;--ink:#111;--muted:#444;--line:#bbb;--pen:#1a2f99}
-  nav,#demo,#metodo,.links,.print-hide,.view,.lesson,body::before{display:none!important}
-  body{font-size:10.5pt;padding:0}
-  .hero{padding-block:0 12px}
-  .hero h1{font-size:20pt}
-  section.block{padding-block:14px 0;break-inside:auto}
-  .sheet{break-inside:avoid;border-width:1px;margin-bottom:12px}
-  .cv{break-before:page}
+  @page{margin:14mm 14mm}
+  nav,.hero,.meas,#casos,#erros,#outros,#demo,#metodo,.print-hide,footer,body::before{display:none!important}
+  body{font-size:9.5pt;line-height:1.45;padding:0}
+  .print-head{display:grid!important;gap:2px;padding-bottom:10px;border-bottom:1.5px solid var(--ink);margin-bottom:6px}
+  .print-head h1{font-size:20pt}
+  .print-head p{font-size:9pt;color:var(--muted);max-width:none}
+  section.block{padding-block:6px 0}
+  .sec-head{display:none}
+  .cv-grid{border-top:0;padding-top:4px;gap:24px;grid-template-columns:1.7fr 1fr}
+  .cv-main,.cv-side{gap:14px}
+  .cv-block p,.cv-block li{font-size:9.5pt}
+  .job{break-inside:avoid}
   a{color:inherit;text-decoration:none}
 }
 
@@ -222,6 +233,7 @@ svg .ah{fill:var(--ink)}
     <ul>
       <li><a href="#casos">Casos</a></li>
       <li><a href="atlas.html">Atlas de arquitetura</a></li>
+      <li><a href="#erros">Erros que corrigi</a></li>
       <li><a href="#demo">Demonstração</a></li>
       <li><a href="#curriculo">Currículo</a></li>
       <li><a href="#contato">Contato</a></li>
@@ -236,16 +248,16 @@ svg .ah{fill:var(--ink)}
     <p class="lede">Ingestão, banco, ferramentas e o agente por cima. O código calcula e decide, o modelo lê e explica, e cada número da resposta aponta para a fonte. <strong>Engenheiro mecânico com certificação CNPI em finanças</strong>: entendo o processo que gera o dado antes de modelar.</p>
     <div class="links">
       <a class="btn primary" href="atlas.html">Abrir o atlas de arquitetura</a>
-      <a class="btn" href="#curriculo">Currículo</a>
+      <a class="btn" href="https://brunoizi.github.io/curriculo.pdf" target="_blank" rel="noopener">Currículo (PDF)</a>
       <a class="btn" href="https://github.com/brunoizi" target="_blank" rel="noopener">github.com/brunoizi</a>
     </div>
   </header>
 
   <div class="meas" aria-label="Medições dos projetos">
-    <div><b>1.241</b><span>observações point-in-time no backtest, 135 empresas, sem viés de sobrevivência</span></div>
-    <div><b>878</b><span>imagens lidas por visão em lote: 0 erros, US$ 12,28</span></div>
-    <div><b>100%</b><span>das 1.177 afirmações extraídas com citação literal conferida por código</span></div>
-    <div><b>26×</b><span>mais barato após comparar modelos no mesmo roteiro de 8 perguntas</span></div>
+    <div><b>322</b><span>testes automatizados só na plataforma de estudo, rodados antes de cada mudança</span></div>
+    <div><b>100%</b><span>das 1.177 citações extraídas por LLM conferidas por código contra o texto original</span></div>
+    <div><b>0 erros</b><span>em 878 imagens lidas em lote, depois de um piloto de 12</span></div>
+    <div><b>0,30</b><span>de IC fora da amostra (2025–26) para a nota de qualidade, testada sem viés de sobrevivência</span></div>
   </div>
 
   <section class="block" id="casos">
@@ -258,7 +270,7 @@ svg .ah{fill:var(--ink)}
     <article class="sheet">
       <div class="sheet-in">
         <span class="label">Agente conversacional · WhatsApp oficial</span>
-        <h3>Um analista de investimentos no WhatsApp que não inventa número</h3>
+        <h3>Dá para perguntar sobre a bolsa no WhatsApp sem o bot inventar número?</h3>
         <p class="sum">Eu queria perguntar sobre minha carteira e sobre empresas da bolsa pelo celular e receber uma resposta curta, com lastro. O risco de um agente desses é previsível: o modelo preenche lacuna com número plausível. A arquitetura foi desenhada em volta disso.</p>
 
         <div class="view" role="img" aria-label="Diagrama: WhatsApp envia para n8n, que chama a API do motor em Python; o agente consulta ferramentas sobre um banco SQLite alimentado por CVM, B3 e Banco Central; uma checagem barra números sem fonte antes da resposta voltar.">
@@ -311,7 +323,7 @@ svg .ah{fill:var(--ink)}
     <article class="sheet">
       <div class="sheet-in">
         <span class="label">Engenharia de dados · Pesquisa quantitativa</span>
-        <h3>Testar uma nota de qualidade de empresas antes de confiar nela</h3>
+        <h3>Uma nota de qualidade das empresas prevê retorno na B3?</h3>
         <p class="sum">Montei uma régua de 0 a 10 para empresas da B3 a partir dos balanços da CVM. Uma nota bem argumentada ainda pode não prever nada, então fiz o teste histórico com o cuidado que costuma faltar: cada data só enxerga o que existia naquela data.</p>
 
         <div class="view" role="img" aria-label="Diagrama do backtest point-in-time: fontes CVM, B3 e Tesouro entram com defasagem; o universo é escolhido pela liquidez de cada data; a régua é calculada e comparada com o retorno de 6 e 12 meses.">
@@ -368,7 +380,7 @@ svg .ah{fill:var(--ink)}
     <article class="sheet">
       <div class="sheet-in">
         <span class="label">Pipeline de extração com LLM</span>
-        <h3>De 12 mil mensagens soltas a uma base de afirmações citáveis</h3>
+        <h3>Dá para transformar 12 mil mensagens em fatos citáveis sem o modelo inventar citação?</h3>
         <p class="sum">Assino grupos de análise no Telegram com anos de mensagens, PDFs, planilhas e fotos de documentos. Eu precisava que o agente do caso 1 soubesse o que foi dito, por quem e quando, com link para a mensagem original.</p>
 
         <div class="figs">
@@ -407,7 +419,7 @@ svg .ah{fill:var(--ink)}
     <article class="sheet">
       <div class="sheet-in">
         <span class="label">Engenharia de software · produto em uso diário</span>
-        <h3>Uma plataforma de estudo que mede domínio, não acerto</h3>
+        <h3>Como saber se alguém domina resistência dos materiais, e não só acertou?</h3>
         <p class="sum">Construí para minha própria preparação ao concurso da Transpetro (engenharia mecânica). Acertar uma questão no chute não prova nada. O motor registra cada tentativa com certeza declarada, tempo e dicas, e só declara domínio quando sete condições são atendidas.</p>
 
         <div class="figs">
@@ -492,6 +504,24 @@ svg .ah{fill:var(--ink)}
     </div>
   </section>
 
+  <section class="block" id="erros">
+    <div class="sec-head"><h2>O que o dado me desmentiu</h2><span class="label">erros que encontrei no meu próprio trabalho</span></div>
+    <p class="intro">Todo projeto acima teve pelo menos uma hipótese minha derrubada pelo dado. Registro aqui o que eu achava, o que apareceu e o que mudou, porque é isso que diz se dá para confiar nos números dos casos.</p>
+    <div class="table-wrap">
+      <table class="others wrong">
+        <thead><tr><th>Eu achava</th><th>O dado mostrou</th><th>O que mudei</th></tr></thead>
+        <tbody>
+          <tr><td>A primeira versão da nota de qualidade previa retorno.</td><td>Correlação de −0,20 em 12 meses, positiva em só 1 de 6 datas. A amostra era quase toda de bancos.</td><td>Ampliei para mais de 100 empresas sem viés de sobrevivência (IC 0,175). A régua de bancos segue marcada como não validada.</td></tr>
+          <tr><td>Os dados de lucro da CVM estavam prontos para uso.</td><td>Em 28 das 100 maiores empresas, o lucro do controlador vem zerado em algum trimestre.</td><td>Passei a usar consolidado menos minoritários e refiz todos os testes antes de aprovar os pesos novos.</td></tr>
+          <tr><td>As 890 fotos dos grupos eram tabelas de carteira.</td><td>O piloto de 12 fotos mostrou que eram quase todas documentos de empresa. Só 12 das 890 eram carteira.</td><td>Mudei o uso antes de mandar o lote: viraram fonte de fato para o analista.</td></tr>
+          <tr><td>O bot respondia bem a qualquer pergunta.</td><td>4 de 5 perguntas amplas travavam: ele só sabia responder ativo por ativo.</td><td>Criei ferramentas que cruzam o universo inteiro. Passou para 6 de 6.</td></tr>
+          <tr><td>Preço ajustado do Yahoo era confiável para ETFs.</td><td>Seis ETFs com preço congelado de 2022 a 2026 e um desdobramento de 8 para 1 sem ajuste. Contar pregões em vez de dias inflava o retorno anual.</td><td>Descarte automático de séries com esses defeitos e retorno calculado por anos de calendário.</td></tr>
+          <tr><td>Transcrever com o idioma fixado em inglês era o mais preciso.</td><td>O Whisper traduziu a fala em português do professor em vez de transcrever.</td><td>Detecção automática de idioma e conferência de uma amostra antes do lote.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
   <section class="block" id="demo">
     <div class="sec-head">
       <h2>Como uma resposta é montada</h2>
@@ -548,8 +578,14 @@ svg .ah{fill:var(--ink)}
     </div>
   </section>
 
+  <div class="print-head">
+    <h1>Bruno Izidório</h1>
+    <p>Engenharia de IA · Engenharia de dados · Software</p>
+    <p class="mono">brunoengmec2016@gmail.com · linkedin.com/in/bruno-izidorio · github.com/brunoizi · brunoizi.github.io</p>
+  </div>
+
   <section class="block cv" id="curriculo">
-    <div class="sec-head"><h2>Currículo</h2><span class="label print-hide">na versão publicada, imprima esta página para gerar o PDF</span></div>
+    <div class="sec-head"><h2>Currículo</h2><a class="label print-hide" href="https://brunoizi.github.io/curriculo.pdf" target="_blank" rel="noopener">baixar em PDF</a></div>
 
     <div class="cv-grid">
       <div class="cv-main">
@@ -564,7 +600,7 @@ svg .ah{fill:var(--ink)}
             <div class="job-h"><b>Syntech Consultoria</b><span class="mono">2026 – atual</span></div>
             <span class="role">Fundador · engenharia de IA, dados e laudos técnicos</span>
             <ul>
-              <li>Agente de WhatsApp na API oficial da Meta, com motor Python, banco de fatos e checagem de saída (caso 1).</li>
+              <li>Agente de WhatsApp na API oficial da Meta, com motor Python, banco de fatos e checagem de número sem fonte.</li>
               <li>Central editorial que gera stories e reels com contrato entre IA e renderizador, mantida em repositório compartilhado por dois agentes de código.</li>
               <li>Radar de demanda e de licitações sobre APIs públicas; parceria de engenharia com prospecção baseada em dados.</li>
             </ul>
