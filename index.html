@@ -90,7 +90,7 @@ nav a:hover{color:var(--pen)}
 @media (max-width:700px){.gallery{grid-template-columns:1fr}}
 
 /* vitrine */
-.showcase{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:230px 230px auto;gap:12px;margin-bottom:40px}
+.showcase{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:32px}
 .tile{position:relative;margin:0;overflow:hidden;background:#0c0f14;border:1.5px solid var(--ink);min-width:0}
 .tile video,.tile img{display:block;width:100%;height:100%;object-fit:cover;object-position:top center}
 .t-estudo{grid-column:1 / 3;grid-row:1 / 3}
@@ -242,7 +242,7 @@ footer .row{display:flex;gap:24px;flex-wrap:wrap;align-items:baseline}
 @media print{
   :root{--paper:#fff;--sheet:#fff;--ink:#111;--muted:#444;--line:#bbb;--pen:#1a2f99}
   @page{margin:14mm 14mm}
-  nav,.hero,.showcase,.meas,#casos,#erros,#outros,#demo,#metodo,.print-hide,footer,body::before{display:none!important}
+  nav,.hero,.showcase,.meas,.area,#demo,#metodo,.print-hide,footer,body::before{display:none!important}
   body{font-size:9.5pt;line-height:1.45;padding:0}
   .print-head{display:grid!important;gap:2px;padding-bottom:10px;border-bottom:1.5px solid var(--ink);margin-bottom:6px}
   .print-head h1{font-size:20pt}
@@ -268,6 +268,33 @@ svg .box.w{fill:var(--warn-soft);stroke:var(--warn)}
 svg .ln{stroke:var(--ink);stroke-width:1.2;fill:none}
 svg .ln.d{stroke-dasharray:4 4;stroke:var(--muted)}
 svg .ah{fill:var(--ink)}
+
+/* áreas: uma por vez */
+nav li.sep{width:1px;height:16px;background:var(--line)}
+nav a[aria-current="true"]{color:var(--ink);text-decoration:underline;text-decoration-color:var(--pen);text-decoration-thickness:2px;text-underline-offset:6px}
+.chooser{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border:1.5px solid var(--ink)}
+.chooser button{font:inherit;color:inherit;background:var(--sheet);border:0;border-right:1px solid var(--line);padding:16px 18px;text-align:left;cursor:pointer;display:grid;gap:4px;align-content:start}
+.chooser button:last-child{border-right:0}
+.chooser button b{font:600 1.15rem var(--display)}
+.chooser button span:last-child{font-size:.88rem;color:var(--muted);line-height:1.4}
+.chooser button:hover{background:var(--pen-soft)}
+.chooser button[aria-selected="true"]{background:var(--ink);color:var(--paper)}
+.chooser button[aria-selected="true"] .label,.chooser button[aria-selected="true"] span:last-child{color:var(--line)}
+@media (max-width:760px){.chooser{grid-template-columns:1fr}.chooser button{border-right:0;border-bottom:1px solid var(--line)}.chooser button:last-child{border-bottom:0}}
+.area{padding-top:8px}
+.area[hidden]{display:none!important}
+.area-head{display:grid;gap:10px;padding-block:28px 22px;border-top:1.5px solid var(--ink)}
+.area-head h2{font-size:clamp(1.7rem,3.4vw,2.4rem);font-weight:700;max-width:24ch}
+.area-head .lede{font-size:1.08rem;color:var(--muted);max-width:62ch}
+.showcase{grid-template-rows:none}
+.showcase.sc-2{grid-template-columns:minmax(0,1.6fr) minmax(0,1fr)}
+.showcase .tile{height:340px}
+@media (max-width:820px){.showcase.sc-2{grid-template-columns:1fr}.showcase .tile{height:auto;aspect-ratio:16/10}}
+.minor.m-1{grid-template-columns:minmax(0,1fr)}
+.minor.m-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media (max-width:820px){.minor.m-2{grid-template-columns:1fr}}
+.shared{border-top:1.5px solid var(--ink);margin-top:48px}
+@media print{.chooser,.area,.area-head{display:none!important}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -278,10 +305,11 @@ svg .ah{fill:var(--ink)}
   <div class="wrap">
     <span class="who">Bruno Izidório</span>
     <ul>
-      <li><a href="#casos">Casos</a></li>
-      <li><a href="atlas.html">Atlas de arquitetura</a></li>
-      <li><a href="#erros">Erros que corrigi</a></li>
-      <li><a href="#demo">Demonstração</a></li>
+      <li><a href="#dados" data-go="dados">Dados e IA</a></li>
+      <li><a href="#engenharia" data-go="engenharia">Engenharia e educação</a></li>
+      <li><a href="#financas" data-go="financas">Finanças quant.</a></li>
+      <li class="sep" aria-hidden="true"></li>
+      <li><a href="atlas.html">Atlas</a></li>
       <li><a href="#curriculo">Currículo</a></li>
       <li><a href="#contato">Contato</a></li>
     </ul>
@@ -292,7 +320,12 @@ svg .ah{fill:var(--ink)}
   <header class="hero">
     <span class="label">Engenharia de IA · Engenharia de dados · Software</span>
     <h1>Construo sistemas de IA que <em>põem coisas no ar</em>.</h1>
-    <p class="lede">Questões com gabarito calculado, respostas com fonte, aulas animadas e stories, tudo gerado por pipelines de dados e agentes que eu mesmo projetei e opero. <strong>Engenheiro mecânico, especialista em IA e engenharia de dados.</strong></p>
+    <p class="lede">Engenheiro mecânico, especialista em IA e engenharia de dados. Os projetos estão separados em três áreas: escolha a que interessa a você.</p>
+    <div class="chooser" role="tablist" aria-label="Áreas">
+      <button role="tab" type="button" data-go="dados" id="t-dados" aria-controls="area-dados"><span class="label">3 casos</span><b>Dados e IA</b><span>Agente no WhatsApp, extração verificada com LLM, central editorial</span></button>
+      <button role="tab" type="button" data-go="engenharia" id="t-engenharia" aria-controls="area-engenharia"><span class="label">2 casos</span><b>Engenharia e educação</b><span>Plataforma de estudo com gabarito calculado, aula em Manim</span></button>
+      <button role="tab" type="button" data-go="financas" id="t-financas" aria-controls="area-financas"><span class="label">3 casos</span><b>Finanças quantitativas</b><span>Backtest point-in-time, renda fixa e fundos, robô para o MT5</span></button>
+    </div>
     <div class="links">
       <a class="btn primary" href="atlas.html">Abrir o atlas de arquitetura</a>
       <a class="btn" href="https://brunoizi.github.io/curriculo.pdf" target="_blank" rel="noopener">Currículo (PDF)</a>
@@ -300,44 +333,20 @@ svg .ah{fill:var(--ink)}
     </div>
   </header>
 
-  <section class="showcase" aria-label="Sistemas rodando">
-    <figure class="tile t-estudo">
-      <video muted loop playsinline autoplay preload="metadata" poster="media/estudo.jpg"><source src="media/estudo.mp4" type="video/mp4"></video>
-      <figcaption><b>Plataforma de estudo</b><span>Questão gerada com gabarito calculado; o erro revela o conceito</span><a href="#caso-estudo">ver o caso →</a></figcaption>
-    </figure>
-    <figure class="tile t-story">
+<section class="area" id="area-dados" data-area="dados" aria-labelledby="h-dados">
+    <header class="area-head"><span class="label">Dados e IA</span><h2 id="h-dados">Agentes e pipelines com fonte conferida</h2><p class="lede">Agentes que respondem com lastro e pipelines que transformam mensagens, PDFs e fotos em fatos citáveis. O modelo escreve; o código confere.</p></header>
+    <section class="showcase sc-2" aria-label="Sistemas rodando · Dados e IA">
+    <figure class="tile">
+      <img src="media/bot_whatsapp.jpg" alt="Conversa real com o agente no WhatsApp: pergunta sobre indicadores para compor uma carteira e resposta em blocos com os pesos da nota." loading="lazy">
+      <figcaption><b>Agente no WhatsApp</b><span>Conversa real, número oficial da Meta, resposta em blocos com fonte</span><a href="#caso-agente">ver o caso →</a></figcaption>
+    </figure><figure class="tile">
       <video muted loop playsinline autoplay preload="metadata" poster="media/story.jpg"><source src="media/story.mp4" type="video/mp4"></video>
       <figcaption><b>Central editorial</b><span>Story escrito pela IA a partir de fontes e renderizado por código</span><a href="#caso-central">ver o caso →</a></figcaption>
     </figure>
-    <figure class="tile t-wide">
-      <img src="media/bot_whatsapp.jpg" alt="Conversa real com o agente no WhatsApp: pergunta sobre indicadores para compor uma carteira e resposta em blocos com os pesos da nota." loading="lazy">
-      <figcaption><b>Agente no WhatsApp</b><span>Conversa real, número oficial da Meta, resposta em blocos com fonte</span><a href="#caso-agente">ver o caso →</a></figcaption>
-    </figure>
-    <figure class="tile t-wide">
-      <video muted loop playsinline autoplay preload="metadata" poster="media/manim.jpg"><source src="media/manim.mp4" type="video/mp4"></video>
-      <figcaption><b>Aula de cálculo em código</b><span>Manim em 1080p60, sincronizado com a narração</span><a href="#caso-manim">ver o caso →</a></figcaption>
-    </figure>
-    <figure class="tile t-wide">
-      <video muted loop playsinline autoplay preload="metadata" poster="media/episodio.jpg"><source src="media/episodio.mp4" type="video/mp4"></video>
-      <figcaption><b>Animações sobre opções</b><span>15 episódios narrados e legendados por pipeline</span><a href="#outros">ver →</a></figcaption>
-    </figure>
-  </section>
-
-  <div class="meas" aria-label="Medições dos projetos">
-    <div><b>322</b><span>testes automatizados só na plataforma de estudo, rodados antes de cada mudança</span></div>
-    <div><b>100%</b><span>das 1.177 citações extraídas por LLM conferidas por código contra o texto original</span></div>
-    <div><b>0 erros</b><span>em 878 imagens lidas em lote, depois de um piloto de 12</span></div>
-    <div><b>0,30</b><span>de IC fora da amostra (2025–26) para a nota de qualidade, testada sem viés de sobrevivência</span></div>
-  </div>
-
-  <section class="block" id="casos">
-    <div class="sec-head">
-      <h2>Casos</h2>
-      <span class="label">5 principais · 3 complementares · arquiteturas no atlas</span>
-    </div>
-
-    <!-- CASO 1 -->
-    <article class="sheet" id="caso-agente">
+    </section>
+    <div class="meas"><div><b>100%</b><span>das 1.177 citações extraídas por LLM conferidas por código contra o texto original</span></div><div><b>0 erros</b><span>em 878 imagens lidas em lote, depois de um piloto de 12</span></div><div><b>6 de 6</b><span>perguntas amplas respondidas pelo agente, contra 1 de 5 na primeira versão</span></div><div><b>26×</b><span>mais barato: o Haiku venceu Opus e Sonnet no mesmo roteiro de 8 perguntas</span></div></div>
+    <section class="block"><div class="sec-head"><h2>Casos</h2><span class="label">3 casos · arquiteturas no atlas</span></div>
+<article class="sheet" id="caso-agente">
       <div class="sheet-in">
         <span class="label">Agente conversacional · WhatsApp oficial</span>
         <h3>Dá para perguntar sobre a bolsa no WhatsApp sem o bot inventar número?</h3>
@@ -399,9 +408,189 @@ svg .ah{fill:var(--ink)}
         <div><i>Modelo</i>Claude Haiku 5.5</div>
       </div>
     </article>
+<article class="sheet" id="caso-extracao">
+      <div class="sheet-in">
+        <span class="label">Pipeline de extração com LLM</span>
+        <h3>Dá para transformar 12 mil mensagens em fatos citáveis sem o modelo inventar citação?</h3>
+        <p class="sum">Assino grupos de análise no Telegram com anos de mensagens, PDFs, planilhas e fotos de documentos. Eu precisava que o agente do caso 1 soubesse o que foi dito, por quem e quando, com link para a mensagem original.</p>
 
-    <!-- CASO 2 -->
-    <article class="sheet" id="caso-backtest">
+        <div class="figs">
+          <div><b>2.495 → 1.177</b><span>mensagens de analistas destiladas em afirmações estruturadas</span></div>
+          <div><b>100%</b><span>citações literais conferidas por código contra o texto original</span></div>
+          <div><b>US$ 2,95</b><span>custo do lote de destilação</span></div>
+          <div><b>890 fotos</b><span>lidas por visão; só 12 eram tabela de carteira</span></div>
+        </div>
+
+        <div class="cols">
+          <div><h4>Pipeline</h4><ul>
+            <li>Coleta incremental com Telethon, uma sessão por vez.</li>
+            <li>Materiais (PDF, planilha, HTML) baixados com índice próprio.</li>
+            <li>Fotos lidas em lote pela Batch API, com JSON e tipo de documento.</li>
+            <li>Destilação: ativo, tipo, direção, valor, citação e link.</li>
+          </ul></div>
+          <div><h4>Decisões</h4><ul>
+            <li>O modelo propõe a citação; o código só aceita se ela existir literalmente na mensagem.</li>
+            <li>Toda afirmação de terceiro entra como observação não verificada, nunca como fato.</li>
+            <li>Piloto de 12 fotos (US$ 0,30) antes do lote de 878.</li>
+          </ul></div>
+          <div><h4>O que mudou</h4><p>O piloto derrubou a hipótese inicial: as fotos eram quase todas documentos de empresa, não carteiras. Mudei o uso delas para fonte de fato do analista e busquei preços-teto nos PDFs e planilhas.</p></div>
+        </div>
+
+        <p class="lesson"><b>Bug pequeno, efeito grande:</b> links depois de emoji saíam cortados, porque o Telegram mede posições em UTF-16 e o Python em code points. Corrigi o extrator e reconstruí as URLs antigas a partir do texto.</p>
+      </div>
+      <div class="stamp">
+        <div><i>Status</i><span class="pill ok">rotina pronta, agendamento pendente</span></div>
+        <div><i>Stack</i>Telethon · Claude Batch · JSONL</div>
+        <div class="grow"><i>Saída</i>tabela <span class="mono">visao_analistas</span> no fatos.db</div>
+        <div><i>Custo total</i>≈ US$ 15</div>
+      </div>
+    </article>
+<div class="minor m-1"><article class="sheet" id="caso-central">
+        <div class="sheet-in">
+          <span class="label">Automação de conteúdo</span>
+          <h3>Central editorial que gera stories e reels com contrato</h3>
+          <p>A IA escreve o roteiro só a partir das evidências ligadas à pauta. A saída passa por um schema zod compartilhado com o Remotion e por um gate que recusa frase repetida na cena. Voz neural da Azure e render em lote.</p>
+        </div>
+        <div class="stamp">
+          <div><i>Status</i><span class="pill ok">em uso</span></div>
+          <div class="grow"><i>Stack</i>Python · Node · Remotion</div>
+          <div><i>IA</i>Claude · Azure TTS</div>
+          <div><i>Testes</i>pytest · node</div>
+        </div>
+      </article></div>
+</section>
+<section class="block" id="demo">
+    <div class="sec-head">
+      <h2>Como uma resposta é montada</h2>
+      <span class="label">Reprodução do fluxo do caso 1</span>
+    </div>
+    <div class="demo">
+      <div class="demo-top" role="group" aria-label="Escolha uma pergunta">
+        <button class="q" id="q0" aria-pressed="true" data-i="0">O que mudou nas empresas que acompanho?</button>
+        <button class="q" id="q1" aria-pressed="false" data-i="1">Como a nota de 0 a 10 é feita?</button>
+        <button class="q" id="q2" aria-pressed="false" data-i="2">Quanto sobra no mês?</button>
+      </div>
+      <div class="demo-body">
+        <ol class="trace" id="trace" aria-live="polite"></ol>
+        <div class="phone">
+          <div class="bubble in" id="ask"></div>
+          <div class="bubble" id="ans"></div>
+          <div class="models" aria-label="Custo do roteiro de 8 perguntas por modelo">
+            <div><b>US$ 0,34</b><span>Opus · 8 perguntas</span></div>
+            <div><b>US$ 0,20</b><span>Sonnet · 8 perguntas</span></div>
+            <div class="pick"><b>US$ 0,013</b><span>Haiku · escolhido</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="demo-foot">
+        <span>Etapas e ferramentas reais; dados da resposta são ilustrativos. Nada aqui chama um modelo.</span>
+        <button class="replay" id="replay">Reproduzir de novo</button>
+      </div>
+    </div>
+  </section>
+<section class="block"><div class="sec-head"><h2>O que o dado me desmentiu</h2><span class="label">erros que encontrei no meu próprio trabalho</span></div>
+    <div class="table-wrap"><table class="others wrong"><thead><tr><th>Eu achava</th><th>O dado mostrou</th><th>O que mudei</th></tr></thead><tbody>
+    <tr><td>As 890 fotos dos grupos eram tabelas de carteira.</td><td>O piloto de 12 fotos mostrou que eram quase todas documentos de empresa. Só 12 das 890 eram carteira.</td><td>Mudei o uso antes de mandar o lote: viraram fonte de fato para o analista.</td></tr><tr><td>O bot respondia bem a qualquer pergunta.</td><td>4 de 5 perguntas amplas travavam: ele só sabia responder ativo por ativo.</td><td>Criei ferramentas que cruzam o universo inteiro. Passou para 6 de 6.</td></tr>
+    </tbody></table></div></section>
+<section class="block" id="outros-dados"><div class="sec-head"><h2>Outros sistemas</h2><span class="label">menores, também em uso ou em teste</span></div>
+    <div class="table-wrap"><table class="others"><thead><tr><th>Sistema</th><th>O que faz</th><th>Técnica central</th><th>Status</th></tr></thead><tbody>
+    <tr><td>Análise de licitações</td><td>Busca editais no PNCP, lê o edital com LLM, compara preços corrigidos pelo IPCA e simula o lance</td><td>API pública do PNCP · Claude · correção monetária</td><td><span class="pill draft">MVP</span></td></tr><tr><td>Radar industrial</td><td>Mapeia 761 empresas de 19 segmentos em Marabá e Parauapebas e separa cliente, concorrente e canal</td><td>Places API · 55 requisições · classificação por papel</td><td><span class="pill ok">usado na prospecção</span></td></tr>
+    </tbody></table></div>
+    <div class="guided"><div class="sec-head" style="margin:36px 0 14px"><h3 class="gh">Projetos guiados</h3><span class="label">implementados por mim nos cursos da Asimov Academy</span></div>
+    <div class="gcards"><div><b>Curadoria de notícias com equipe de agentes</b><p>Começa com um agente único e evolui em quatro versões até uma equipe com papéis separados: pesquisa, apuração de fontes, verificação factual e redação. Cada papel é uma skill própria.</p><span class="mono">Agno · OpenAI · busca web · FastAPI</span></div><div><b>Tom das atas do FED e do Copom</b><p>Baixa as atas, extrai o texto e classifica o tom de política monetária (mais duro ou mais brando) com um modelo de linguagem pequeno rodando localmente.</p><span class="mono">Python · BeautifulSoup · Ollama</span></div><div><b>Agente de WhatsApp com fila</b><p>API recebe a mensagem, enfileira e responde por um worker separado, para não perder mensagem sob carga. Memória da conversa em Redis e base de conhecimento em arquivo.</p><span class="mono">Agno · FastAPI · WAHA · RabbitMQ · Redis · Docker</span></div></div></div></section>
+</section>
+
+<section class="area" id="area-engenharia" data-area="engenharia" aria-labelledby="h-engenharia">
+    <header class="area-head"><span class="label">Engenharia e educação</span><h2 id="h-engenharia">Ensinar engenharia com gabarito calculado</h2><p class="lede">Uma plataforma que só declara domínio com evidência e aulas de cálculo renderizadas por código. Engenharia mecânica como domínio, software como ferramenta.</p></header>
+    <section class="showcase sc-2" aria-label="Sistemas rodando · Engenharia e educação">
+    <figure class="tile">
+      <video muted loop playsinline autoplay preload="metadata" poster="media/estudo.jpg"><source src="media/estudo.mp4" type="video/mp4"></video>
+      <figcaption><b>Plataforma de estudo</b><span>Questão gerada com gabarito calculado; o erro revela o conceito</span><a href="#caso-estudo">ver o caso →</a></figcaption>
+    </figure><figure class="tile">
+      <video muted loop playsinline autoplay preload="metadata" poster="media/manim.jpg"><source src="media/manim.mp4" type="video/mp4"></video>
+      <figcaption><b>Aula de cálculo em código</b><span>Manim em 1080p60, sincronizado com a narração</span><a href="#caso-manim">ver o caso →</a></figcaption>
+    </figure>
+    </section>
+    <div class="meas"><div><b>322</b><span>testes automatizados na plataforma de estudo, rodados antes de cada mudança</span></div><div><b>246</b><span>famílias de questão com gabarito calculado</span></div><div><b>199</b><span>habilidades num grafo de pré-requisitos</span></div><div><b>±100 ms</b><span>sincronia entre a animação em Manim e a narração</span></div></div>
+    <section class="block"><div class="sec-head"><h2>Casos</h2><span class="label">2 casos · arquiteturas no atlas</span></div>
+<article class="sheet" id="caso-estudo">
+      <div class="sheet-in">
+        <span class="label">Engenharia de software · produto em uso diário</span>
+        <h3>Como saber se alguém domina resistência dos materiais, e não só acertou?</h3>
+        <p class="sum">Construí para minha própria preparação ao concurso da Transpetro (engenharia mecânica). Acertar uma questão no chute não prova nada. O motor registra cada tentativa com certeza declarada, tempo e dicas, e só declara domínio quando sete condições são atendidas.</p>
+
+        <div class="figs">
+          <div><b>246</b><span>famílias de questão com gabarito calculado; cada alternativa errada tem um erro conceitual por trás</span></div>
+          <div><b>199</b><span>habilidades num grafo de pré-requisitos</span></div>
+          <div><b>318</b><span>erros conceituais catalogados</span></div>
+          <div><b>322</b><span>testes automatizados em 27 arquivos, 65 commits</span></div>
+        </div>
+
+        <div class="cols">
+          <div><h4>Motor</h4><ul>
+            <li>O estado do estudante nunca é gravado: é recalculado a partir das tentativas registradas. Uma regra nova recalcula o histórico inteiro, sem migração.</li>
+            <li>Diagnóstico D/H/L/E/F: acerto com dúvida, lentidão ou dica é hesitação, não domínio.</li>
+            <li>Revisões espaçadas em 1, 3, 7, 21 e 60 dias.</li>
+          </ul></div>
+          <div><h4>Pipeline com LLM sob contrato</h4><ul>
+            <li>Ingestão e enriquecimento em 7 estágios com 10 schemas JSON e 5 níveis de validação.</li>
+            <li>Cada chamada ao modelo é nova, isolada e sem ferramentas. Nada é sobrescrito e não há reparo automático.</li>
+            <li>Videoaulas transcritas na GPU local com faster-whisper, sem custo de API.</li>
+          </ul></div>
+          <div><h4>Entrega</h4><ul>
+            <li>FastAPI com interface pensada para tablet, SQLite por estudante.</li>
+            <li>Container no Fly.io em São Paulo, com senha obrigatória: sem ela o app nem sobe aberto.</li>
+            <li>Uso diário na reta final da prova (06/12/2026).</li>
+          </ul></div>
+        </div>
+
+        <p class="lesson"><b>Bug que ensinou:</b> transcrevendo as aulas de inglês com <span class="mono">--lang en</span>, o Whisper traduziu a fala do professor brasileiro em vez de transcrever. Agora o idioma é detectado automaticamente e a amostra é conferida antes do lote.</p>
+      </div>
+      <div class="stamp">
+        <div><i>Status</i><span class="pill ok">em uso diário</span></div>
+        <div><i>Stack</i>Python · FastAPI · SQLite</div>
+        <div class="grow"><i>Infra</i>Docker · Fly.io · JSON Schema</div>
+        <div><i>IA</i>faster-whisper · Claude</div>
+      </div>
+    </article>
+<div class="minor m-1"><article class="sheet" id="caso-manim">
+        <div class="sheet-in">
+          <span class="label">Vídeo didático automatizado</span>
+          <h3>Aula de cálculo em 1080p60 renderizada por código</h3>
+          <p>Cenas em Manim sincronizadas palavra a palavra com narração ElevenLabs, texto da tela traduzido na hora do render para a versão em inglês. 16 takes, 17 min 19 s, emendas conferidas por script.</p>
+        </div>
+        <div class="stamp">
+          <div><i>Status</i><span class="pill ok">versão EN montada</span></div>
+          <div class="grow"><i>Stack</i>Manim · Python · ffmpeg</div>
+          <div><i>Voz</i>ElevenLabs</div>
+          <div><i>Sync</i>±100 ms</div>
+        </div>
+      </article></div>
+</section>
+<section class="block"><div class="sec-head"><h2>O que o dado me desmentiu</h2><span class="label">erros que encontrei no meu próprio trabalho</span></div>
+    <div class="table-wrap"><table class="others wrong"><thead><tr><th>Eu achava</th><th>O dado mostrou</th><th>O que mudei</th></tr></thead><tbody>
+    <tr><td>Transcrever com o idioma fixado em inglês era o mais preciso.</td><td>O Whisper traduziu a fala em português do professor em vez de transcrever.</td><td>Detecção automática de idioma e conferência de uma amostra antes do lote.</td></tr>
+    </tbody></table></div></section>
+<section class="block" id="outros-engenharia"><div class="sec-head"><h2>Outros sistemas</h2><span class="label">menores, também em uso ou em teste</span></div>
+    <div class="table-wrap"><table class="others"><thead><tr><th>Sistema</th><th>O que faz</th><th>Técnica central</th><th>Status</th></tr></thead><tbody>
+    <tr><td>Calculadoras de engenharia</td><td>NR-13, custo de parada e seleção de equipamentos por TOPSIS, publicadas no site de uma consultoria parceira</td><td>Gerador de site estático em Python</td><td><span class="pill ok">revisadas pelos engenheiros</span></td></tr>
+    </tbody></table></div></section>
+</section>
+
+<section class="area" id="area-financas" data-area="financas" aria-labelledby="h-financas">
+    <header class="area-head"><span class="label">Finanças quantitativas</span><h2 id="h-financas">Pesquisa quantitativa sem viés de sobrevivência</h2><p class="lede">Backtests point-in-time, renda fixa e fundos com dado público, e execução automatizada testada antes de qualquer conta real. Ferramentas de pesquisa de uso próprio, sem recomendação de investimento.</p></header>
+    <section class="showcase sc-2" aria-label="Sistemas rodando · Finanças quantitativas">
+    <figure class="tile">
+      <img src="media/tesouro_backtest.jpg" alt="Backtest do sinal no scanner do Tesouro: eventos disparados, retorno médio, mediana e taxa de acerto." loading="lazy">
+      <figcaption><b>Scanner do Tesouro Direto</b><span>Backtest do sinal de taxa com o histórico oficial</span><a href="#caso-rendafixa">ver o caso →</a></figcaption>
+    </figure><figure class="tile">
+      <video muted loop playsinline autoplay preload="metadata" poster="media/episodio.jpg"><source src="media/episodio.mp4" type="video/mp4"></video>
+      <figcaption><b>Animações sobre opções</b><span>15 episódios de educação financeira, 6 sobre opções, narrados e legendados por pipeline</span><a href="#outros-financas">ver →</a></figcaption>
+    </figure>
+    </section>
+    <div class="meas"><div><b>0,30</b><span>de IC fora da amostra (2025–26) para a nota de qualidade</span></div><div><b>0,175 → 0,254</b><span>IC de 12 meses da régua v1 para a v2, sem viés de sobrevivência</span></div><div><b>1.058</b><span>fundos cruzados com as cotas diárias da CVM</span></div><div><b>70</b><span>operações do backtest original reproduzidas uma a uma, com resultado idêntico</span></div></div>
+    <section class="block"><div class="sec-head"><h2>Casos</h2><span class="label">3 casos · arquiteturas no atlas</span></div>
+<article class="sheet" id="caso-backtest">
       <div class="sheet-in">
         <span class="label">Engenharia de dados · Pesquisa quantitativa</span>
         <h3>Uma nota de qualidade das empresas prevê retorno na B3?</h3>
@@ -456,90 +645,7 @@ svg .ah{fill:var(--ink)}
         <div><i>Janela</i>14 datas, 2023–2026</div>
       </div>
     </article>
-
-    <!-- CASO 3 -->
-    <article class="sheet" id="caso-extracao">
-      <div class="sheet-in">
-        <span class="label">Pipeline de extração com LLM</span>
-        <h3>Dá para transformar 12 mil mensagens em fatos citáveis sem o modelo inventar citação?</h3>
-        <p class="sum">Assino grupos de análise no Telegram com anos de mensagens, PDFs, planilhas e fotos de documentos. Eu precisava que o agente do caso 1 soubesse o que foi dito, por quem e quando, com link para a mensagem original.</p>
-
-        <div class="figs">
-          <div><b>2.495 → 1.177</b><span>mensagens de analistas destiladas em afirmações estruturadas</span></div>
-          <div><b>100%</b><span>citações literais conferidas por código contra o texto original</span></div>
-          <div><b>US$ 2,95</b><span>custo do lote de destilação</span></div>
-          <div><b>890 fotos</b><span>lidas por visão; só 12 eram tabela de carteira</span></div>
-        </div>
-
-        <div class="cols">
-          <div><h4>Pipeline</h4><ul>
-            <li>Coleta incremental com Telethon, uma sessão por vez.</li>
-            <li>Materiais (PDF, planilha, HTML) baixados com índice próprio.</li>
-            <li>Fotos lidas em lote pela Batch API, com JSON e tipo de documento.</li>
-            <li>Destilação: ativo, tipo, direção, valor, citação e link.</li>
-          </ul></div>
-          <div><h4>Decisões</h4><ul>
-            <li>O modelo propõe a citação; o código só aceita se ela existir literalmente na mensagem.</li>
-            <li>Toda afirmação de terceiro entra como observação não verificada, nunca como fato.</li>
-            <li>Piloto de 12 fotos (US$ 0,30) antes do lote de 878.</li>
-          </ul></div>
-          <div><h4>O que mudou</h4><p>O piloto derrubou a hipótese inicial: as fotos eram quase todas documentos de empresa, não carteiras. Mudei o uso delas para fonte de fato do analista e busquei preços-teto nos PDFs e planilhas.</p></div>
-        </div>
-
-        <p class="lesson"><b>Bug pequeno, efeito grande:</b> links depois de emoji saíam cortados, porque o Telegram mede posições em UTF-16 e o Python em code points. Corrigi o extrator e reconstruí as URLs antigas a partir do texto.</p>
-      </div>
-      <div class="stamp">
-        <div><i>Status</i><span class="pill ok">rotina pronta, agendamento pendente</span></div>
-        <div><i>Stack</i>Telethon · Claude Batch · JSONL</div>
-        <div class="grow"><i>Saída</i>tabela <span class="mono">visao_analistas</span> no fatos.db</div>
-        <div><i>Custo total</i>≈ US$ 15</div>
-      </div>
-    </article>
-
-    <!-- CASO 4 -->
-    <article class="sheet" id="caso-estudo">
-      <div class="sheet-in">
-        <span class="label">Engenharia de software · produto em uso diário</span>
-        <h3>Como saber se alguém domina resistência dos materiais, e não só acertou?</h3>
-        <p class="sum">Construí para minha própria preparação ao concurso da Transpetro (engenharia mecânica). Acertar uma questão no chute não prova nada. O motor registra cada tentativa com certeza declarada, tempo e dicas, e só declara domínio quando sete condições são atendidas.</p>
-
-        <div class="figs">
-          <div><b>246</b><span>famílias de questão com gabarito calculado; cada alternativa errada tem um erro conceitual por trás</span></div>
-          <div><b>199</b><span>habilidades num grafo de pré-requisitos</span></div>
-          <div><b>318</b><span>erros conceituais catalogados</span></div>
-          <div><b>322</b><span>testes automatizados em 27 arquivos, 65 commits</span></div>
-        </div>
-
-        <div class="cols">
-          <div><h4>Motor</h4><ul>
-            <li>O estado do estudante nunca é gravado: é recalculado a partir das tentativas registradas. Uma regra nova recalcula o histórico inteiro, sem migração.</li>
-            <li>Diagnóstico D/H/L/E/F: acerto com dúvida, lentidão ou dica é hesitação, não domínio.</li>
-            <li>Revisões espaçadas em 1, 3, 7, 21 e 60 dias.</li>
-          </ul></div>
-          <div><h4>Pipeline com LLM sob contrato</h4><ul>
-            <li>Ingestão e enriquecimento em 7 estágios com 10 schemas JSON e 5 níveis de validação.</li>
-            <li>Cada chamada ao modelo é nova, isolada e sem ferramentas. Nada é sobrescrito e não há reparo automático.</li>
-            <li>Videoaulas transcritas na GPU local com faster-whisper, sem custo de API.</li>
-          </ul></div>
-          <div><h4>Entrega</h4><ul>
-            <li>FastAPI com interface pensada para tablet, SQLite por estudante.</li>
-            <li>Container no Fly.io em São Paulo, com senha obrigatória: sem ela o app nem sobe aberto.</li>
-            <li>Uso diário na reta final da prova (06/12/2026).</li>
-          </ul></div>
-        </div>
-
-        <p class="lesson"><b>Bug que ensinou:</b> transcrevendo as aulas de inglês com <span class="mono">--lang en</span>, o Whisper traduziu a fala do professor brasileiro em vez de transcrever. Agora o idioma é detectado automaticamente e a amostra é conferida antes do lote.</p>
-      </div>
-      <div class="stamp">
-        <div><i>Status</i><span class="pill ok">em uso diário</span></div>
-        <div><i>Stack</i>Python · FastAPI · SQLite</div>
-        <div class="grow"><i>Infra</i>Docker · Fly.io · JSON Schema</div>
-        <div><i>IA</i>faster-whisper · Claude</div>
-      </div>
-    </article>
-
-    <!-- CASO 5 -->
-    <article class="sheet" id="caso-rendafixa">
+<article class="sheet" id="caso-rendafixa">
       <div class="sheet-in">
         <span class="label">Análise quantitativa · renda fixa e fundos</span>
         <h3>Dá para estudar renda fixa e fundos com o mesmo rigor de uma mesa, usando só dado público?</h3>
@@ -577,38 +683,7 @@ svg .ah{fill:var(--ink)}
         <div><i>IA</i>Claude, 2 agentes</div>
       </div>
     </article>
-
-    <!-- MENORES -->
-    <div class="minor">
-      <article class="sheet" id="caso-central">
-        <div class="sheet-in">
-          <span class="label">Automação de conteúdo</span>
-          <h3>Central editorial que gera stories e reels com contrato</h3>
-          <p>A IA escreve o roteiro só a partir das evidências ligadas à pauta. A saída passa por um schema zod compartilhado com o Remotion e por um gate que recusa frase repetida na cena. Voz neural da Azure e render em lote.</p>
-        </div>
-        <div class="stamp">
-          <div><i>Status</i><span class="pill ok">em uso</span></div>
-          <div class="grow"><i>Stack</i>Python · Node · Remotion</div>
-          <div><i>IA</i>Claude · Azure TTS</div>
-          <div><i>Testes</i>pytest · node</div>
-        </div>
-      </article>
-
-      <article class="sheet" id="caso-manim">
-        <div class="sheet-in">
-          <span class="label">Vídeo didático automatizado</span>
-          <h3>Aula de cálculo em 1080p60 renderizada por código</h3>
-          <p>Cenas em Manim sincronizadas palavra a palavra com narração ElevenLabs, texto da tela traduzido na hora do render para a versão em inglês. 16 takes, 17 min 19 s, emendas conferidas por script.</p>
-        </div>
-        <div class="stamp">
-          <div><i>Status</i><span class="pill ok">versão EN montada</span></div>
-          <div class="grow"><i>Stack</i>Manim · Python · ffmpeg</div>
-          <div><i>Voz</i>ElevenLabs</div>
-          <div><i>Sync</i>±100 ms</div>
-        </div>
-      </article>
-
-      <article class="sheet">
+<div class="minor m-1"><article class="sheet" id="caso-robo">
         <div class="sheet-in">
           <span class="label">Execução automatizada</span>
           <h3>Robô que leva sinais de modelo quantitativo ao MetaTrader 5</h3>
@@ -620,60 +695,20 @@ svg .ah{fill:var(--ink)}
           <div><i>Mercado</i>futuros B3</div>
           <div><i>Próximo</i>demo 2–4 sem.</div>
         </div>
-      </article>
+      </article></div>
+</section>
+<section class="block"><div class="sec-head"><h2>O que o dado me desmentiu</h2><span class="label">erros que encontrei no meu próprio trabalho</span></div>
+    <div class="table-wrap"><table class="others wrong"><thead><tr><th>Eu achava</th><th>O dado mostrou</th><th>O que mudei</th></tr></thead><tbody>
+    <tr><td>A primeira versão da nota de qualidade previa retorno.</td><td>Correlação de −0,20 em 12 meses, positiva em só 1 de 6 datas. A amostra era quase toda de bancos.</td><td>Ampliei para mais de 100 empresas sem viés de sobrevivência (IC 0,175). A régua de bancos segue marcada como não validada.</td></tr><tr><td>Os dados de lucro da CVM estavam prontos para uso.</td><td>Em 28 das 100 maiores empresas, o lucro do controlador vem zerado em algum trimestre.</td><td>Passei a usar consolidado menos minoritários e refiz todos os testes antes de aprovar os pesos novos.</td></tr><tr><td>Preço ajustado do Yahoo era confiável para ETFs.</td><td>Seis ETFs com preço congelado de 2022 a 2026 e um desdobramento de 8 para 1 sem ajuste. Contar pregões em vez de dias inflava o retorno anual.</td><td>Descarte automático de séries com esses defeitos e retorno calculado por anos de calendário.</td></tr>
+    </tbody></table></div></section>
+<section class="block" id="outros-financas"><div class="sec-head"><h2>Outros sistemas</h2><span class="label">menores, também em uso ou em teste</span></div>
+    <div class="table-wrap"><table class="others"><thead><tr><th>Sistema</th><th>O que faz</th><th>Técnica central</th><th>Status</th></tr></thead><tbody>
+    <tr><td>Animações sobre opções</td><td>Episódios curtos que explicam opções de compra e venda com analogias, narrados e legendados</td><td>Remotion · Azure TTS com marcas de sincronia por palavra</td><td><span class="pill ok">6 episódios de opções</span></td></tr>
+    </tbody></table></div></section>
+</section>
 
-    </div>
-  </section>
-
-  <section class="block" id="erros">
-    <div class="sec-head"><h2>O que o dado me desmentiu</h2><span class="label">erros que encontrei no meu próprio trabalho</span></div>
-    <p class="intro">Todo projeto acima teve pelo menos uma hipótese minha derrubada pelo dado. Registro aqui o que eu achava, o que apareceu e o que mudou, porque é isso que diz se dá para confiar nos números dos casos.</p>
-    <div class="table-wrap">
-      <table class="others wrong">
-        <thead><tr><th>Eu achava</th><th>O dado mostrou</th><th>O que mudei</th></tr></thead>
-        <tbody>
-          <tr><td>A primeira versão da nota de qualidade previa retorno.</td><td>Correlação de −0,20 em 12 meses, positiva em só 1 de 6 datas. A amostra era quase toda de bancos.</td><td>Ampliei para mais de 100 empresas sem viés de sobrevivência (IC 0,175). A régua de bancos segue marcada como não validada.</td></tr>
-          <tr><td>Os dados de lucro da CVM estavam prontos para uso.</td><td>Em 28 das 100 maiores empresas, o lucro do controlador vem zerado em algum trimestre.</td><td>Passei a usar consolidado menos minoritários e refiz todos os testes antes de aprovar os pesos novos.</td></tr>
-          <tr><td>As 890 fotos dos grupos eram tabelas de carteira.</td><td>O piloto de 12 fotos mostrou que eram quase todas documentos de empresa. Só 12 das 890 eram carteira.</td><td>Mudei o uso antes de mandar o lote: viraram fonte de fato para o analista.</td></tr>
-          <tr><td>O bot respondia bem a qualquer pergunta.</td><td>4 de 5 perguntas amplas travavam: ele só sabia responder ativo por ativo.</td><td>Criei ferramentas que cruzam o universo inteiro. Passou para 6 de 6.</td></tr>
-          <tr><td>Preço ajustado do Yahoo era confiável para ETFs.</td><td>Seis ETFs com preço congelado de 2022 a 2026 e um desdobramento de 8 para 1 sem ajuste. Contar pregões em vez de dias inflava o retorno anual.</td><td>Descarte automático de séries com esses defeitos e retorno calculado por anos de calendário.</td></tr>
-          <tr><td>Transcrever com o idioma fixado em inglês era o mais preciso.</td><td>O Whisper traduziu a fala em português do professor em vez de transcrever.</td><td>Detecção automática de idioma e conferência de uma amostra antes do lote.</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
-
-  <section class="block" id="demo">
-    <div class="sec-head">
-      <h2>Como uma resposta é montada</h2>
-      <span class="label">Reprodução do fluxo do caso 1</span>
-    </div>
-    <div class="demo">
-      <div class="demo-top" role="group" aria-label="Escolha uma pergunta">
-        <button class="q" id="q0" aria-pressed="true" data-i="0">O que mudou nas empresas que acompanho?</button>
-        <button class="q" id="q1" aria-pressed="false" data-i="1">Como a nota de 0 a 10 é feita?</button>
-        <button class="q" id="q2" aria-pressed="false" data-i="2">Quanto sobra no mês?</button>
-      </div>
-      <div class="demo-body">
-        <ol class="trace" id="trace" aria-live="polite"></ol>
-        <div class="phone">
-          <div class="bubble in" id="ask"></div>
-          <div class="bubble" id="ans"></div>
-          <div class="models" aria-label="Custo do roteiro de 8 perguntas por modelo">
-            <div><b>US$ 0,34</b><span>Opus · 8 perguntas</span></div>
-            <div><b>US$ 0,20</b><span>Sonnet · 8 perguntas</span></div>
-            <div class="pick"><b>US$ 0,013</b><span>Haiku · escolhido</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="demo-foot">
-        <span>Etapas e ferramentas reais; dados da resposta são ilustrativos. Nada aqui chama um modelo.</span>
-        <button class="replay" id="replay">Reproduzir de novo</button>
-      </div>
-    </div>
-  </section>
-
-  <section class="block" id="metodo">
+<div class="shared">
+<section class="block" id="metodo">
     <div class="sec-head"><h2>Como trabalho</h2></div>
     <div class="rules">
       <div><h3>O código decide, o modelo explica</h3><p>Conta, teto, elegibilidade e formato ficam em funções puras e testáveis. O LLM lê o resultado e escreve. Assim dá para trocar de modelo sem trocar de regra.</p></div>
@@ -682,30 +717,7 @@ svg .ah{fill:var(--ink)}
       <div><h3>Custo é requisito</h3><p>Comparo modelos no mesmo roteiro, uso lote quando não há pressa e deixo a coleta de dado pessoal fora do modelo. Cada caso acima tem o custo medido.</p></div>
     </div>
   </section>
-
-  <section class="block" id="outros">
-    <div class="sec-head"><h2>Outros sistemas</h2><span class="label">menores, também em uso ou em teste</span></div>
-    <div class="table-wrap">
-      <table class="others">
-        <thead><tr><th>Sistema</th><th>O que faz</th><th>Técnica central</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td>Análise de licitações</td><td>Busca editais no PNCP, lê o edital com LLM, compara preços corrigidos pelo IPCA e simula o lance</td><td>API pública do PNCP · Claude · correção monetária</td><td><span class="pill draft">MVP</span></td></tr>
-          <tr><td>Radar industrial</td><td>Mapeia 761 empresas de 19 segmentos em Marabá e Parauapebas e separa cliente, concorrente e canal</td><td>Places API · 55 requisições · classificação por papel</td><td><span class="pill ok">usado na prospecção</span></td></tr>
-          <tr><td>Calculadoras de engenharia</td><td>NR-13, custo de parada e seleção de equipamentos por TOPSIS, publicadas no site de uma consultoria parceira</td><td>Gerador de site estático em Python</td><td><span class="pill ok">revisadas pelos engenheiros</span></td></tr>
-          <tr><td>Animações sobre opções</td><td>Episódios curtos que explicam opções de compra e venda com analogias, narrados e legendados</td><td>Remotion · Azure TTS com marcas de sincronia por palavra</td><td><span class="pill ok">2 episódios</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="guided">
-      <div class="sec-head" style="margin:36px 0 14px"><h3 class="gh">Projetos guiados</h3><span class="label">implementados por mim nos cursos da Asimov Academy</span></div>
-      <div class="gcards">
-        <div><b>Curadoria de notícias com equipe de agentes</b><p>Começa com um agente único e evolui em quatro versões até uma equipe com papéis separados: pesquisa, apuração de fontes, verificação factual e redação. Cada papel é uma skill própria.</p><span class="mono">Agno · OpenAI · busca web · FastAPI</span></div>
-        <div><b>Tom das atas do FED e do Copom</b><p>Baixa as atas, extrai o texto e classifica o tom de política monetária (mais duro ou mais brando) com um modelo de linguagem pequeno rodando localmente.</p><span class="mono">Python · BeautifulSoup · Ollama</span></div>
-        <div><b>Agente de WhatsApp com fila</b><p>API recebe a mensagem, enfileira e responde por um worker separado, para não perder mensagem sob carga. Memória da conversa em Redis e base de conhecimento em arquivo.</p><span class="mono">Agno · FastAPI · WAHA · RabbitMQ · Redis · Docker</span></div>
-      </div>
-    </div>
-  </section>
+</div>
 
   <div class="print-head">
     <h1>Bruno Izidório</h1>
@@ -858,6 +870,40 @@ svg .ah{fill:var(--ink)}
     var io=new IntersectionObserver(function(es){es.forEach(function(e){ if(e.isIntersecting){var pr=e.target.play();if(pr&&pr.catch)pr.catch(function(){})} else e.target.pause() })},{threshold:.2});
     vids.forEach(function(v){io.observe(v)});
   }
+})();
+</script>
+<script>
+/* áreas: #dados, #engenharia, #financas; um link para um caso (#caso-…) abre a área dele */
+(function(){
+  var AREAS=["dados","engenharia","financas"];
+  function areaOf(h){
+    if(AREAS.indexOf(h)>=0)return h;
+    var el=h&&document.getElementById(h);
+    var a=el&&el.closest&&el.closest(".area");
+    return a?a.dataset.area:null;
+  }
+  function show(a,scrollTo){
+    AREAS.forEach(function(k){
+      document.getElementById("area-"+k).hidden=k!==a;
+      var t=document.getElementById("t-"+k);t.setAttribute("aria-selected",String(k===a));
+      [].forEach.call(document.querySelectorAll('nav [data-go="'+k+'"]'),function(n){n.setAttribute("aria-current",String(k===a))});
+    });
+    if(scrollTo){var el=document.getElementById(scrollTo);if(el)el.scrollIntoView({block:"start"})}
+  }
+  function route(){
+    var h=location.hash.slice(1),a=areaOf(h);
+    if(a){show(a,AREAS.indexOf(h)>=0?null:h);return}
+    if(!document.querySelector('.chooser [aria-selected="true"]'))show("dados");
+  }
+  [].forEach.call(document.querySelectorAll("[data-go]"),function(b){
+    b.addEventListener("click",function(e){
+      e.preventDefault();var a=b.dataset.go;
+      if(location.hash!=="#"+a)history.replaceState(null,"","#"+a);
+      show(a);document.getElementById("area-"+a).scrollIntoView({block:"start"});
+    });
+  });
+  window.addEventListener("hashchange",route);
+  route();
 })();
 </script>
 
